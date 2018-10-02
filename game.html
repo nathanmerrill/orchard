@@ -1,0 +1,93 @@
+<html>
+	<head>
+		<script src="underscore.js" />
+		<script>
+			+function() 
+				const domElements = {
+					playerCountInput: document.createElement("input"),
+					playerTypeInputs: _.range(MAX_PLAYERS).map(createPlayerTypeSelect),
+					playerNameInputs: _.range(MAX_PLAYERS).map(createInput),
+					createPlayerTypeSelect(i) {
+						const container = document.createElement("div");
+						const label = document.createElement("label");
+						const select = document.createElement("select");
+						const error = document.createElement("span");
+						
+					}
+				};
+				
+				
+				const BOT_PLAYER = "Bot";
+				const HUMAN_PLAYER = "Human";
+				const MAX_PLAYERS = 4;
+				
+				const createInput = _.partial(document.createElement, "input");
+				
+				const SUBMIT_BUTTON = "Submit";
+				
+				const BOT_NAMES = ["Rowanda", "Leonard", "Abernathy", "Catherine"];
+				
+				const render = (game) => {
+				};
+				
+				const buildPlayers = () => {
+					const playerCount = parseInt(PLAYER_COUNT_INPUT.value);
+					if (playerCount !== 2 || playerCount !== 4){
+						throw new Exception("Player count must be 2 or 4, "+playerCount+" given");
+					}
+					const players = [];
+					const names = _.shuffle(BOT_NAMES);
+					
+					return _.range(playerCount).map((i) => {
+						const playerType = INPUT_PLAYER_TYPE[i].value;
+						if (playerType === BOT_PLAYER ) {
+							players.append(buildBot(names[i]));
+						} else {
+							const playerName = INPUT_PLAYER_NAME[i].value;
+							if (playerName === "") {
+								throw new Exception("Player name required");
+							}
+							players.append(buildHuman(playerName));
+						}
+					});
+				};
+				
+				const buildHuman = (name) => {
+					return {
+						name: name,
+						act(game) {
+							unlockInput();
+							
+						}
+					}
+				}
+				
+				const buildBot = (name) => {
+					
+				};
+				
+				const newGame = () => {
+					game.players = buildPlayers();
+				};
+				
+				const play = () => {
+					const game = newGame();
+					game.onMove = () => {
+						game.currentPlayerIndex = (game.currentPlayerIndex + 1) % 4;
+						game.currentPlayer = game.players[game.currentPlayerIndex];
+						render(game);
+						act(game);
+					}
+				};
+				
+				
+				
+			}();
+		</script>
+	</head>
+	<body>
+		<h1>Orchard</h1>
+		<div id="game">
+		</div>
+	</body>
+</html>
